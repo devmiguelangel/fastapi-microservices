@@ -1,0 +1,29 @@
+volumes:
+  db: {}
+
+services:
+  db:
+    image: postgres:16.3-alpine
+    container_name: ms_db
+    volumes:
+      - db:/var/lib/postgresql/data
+    env_file:
+      - ./compose/db.env
+    ports:
+      - '5432:5432'
+    restart: unless-stopped
+
+  auth:
+    build:
+      context: .
+      dockerfile: ./compose/auth/Dockerfile
+    container_name: ms_auth
+    volumes:
+      - ./services/auth:/api
+    env_file:
+      - ./compose/auth/auth.env
+    ports:
+      - '8001:8000'
+    depends_on:
+      - db
+    restart: unless-stopped

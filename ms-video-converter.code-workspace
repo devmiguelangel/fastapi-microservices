@@ -1,0 +1,13 @@
+{
+	"folders": [
+		{
+			"path": "./services/auth",
+      "name": "AUTH_SERVICE"
+		},
+    {
+      "path": "./compose",
+      "name": "COMPOSE"
+    }
+  ],
+  "settings": {}
+}
