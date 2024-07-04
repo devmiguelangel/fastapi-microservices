@@ -1,0 +1,43 @@
+# Python
+__pycache__
+*.py[cod]
+*.pyo
+*.pyd
+*~
+
+# Environments
+*.env
+.venv
+env/
+venv/
+ENV/
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+*.egg-info
+MANIFEST
+
+# Ruff cache
+.ruff_cache
+
+# vscode
+.vscode/
+
+# Logs
+logs/
+*.log
+
