@@ -21,11 +21,13 @@ RUN pip install poetry
 
 WORKDIR /api
 
-COPY ./services/auth/pyproject.toml ./services/auth/poetry.lock ./
+COPY ./pyproject.toml ./poetry.lock ./
 
 RUN poetry install --no-root
 
-COPY ./compose/auth/start.sh /start
+COPY . .
+
+COPY ./start.sh /start
 RUN sed -i 's/\r//' /start
 RUN chmod +x /start
 

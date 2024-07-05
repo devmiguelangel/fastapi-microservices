@@ -8,20 +8,18 @@ services:
     volumes:
       - db:/var/lib/postgresql/data
     env_file:
-      - ./compose/db.env
+      - ./envs/db.env
     ports:
       - '5432:5432'
     restart: unless-stopped
 
   auth:
-    build:
-      context: .
-      dockerfile: ./compose/auth/Dockerfile
+    image: devmiguelangel/ms-insta-auth:latest
     container_name: ms_auth
     volumes:
       - ./services/auth:/api
     env_file:
-      - ./compose/auth/auth.env
+      - ./envs/auth.env
     ports:
       - '8001:8000'
     depends_on:

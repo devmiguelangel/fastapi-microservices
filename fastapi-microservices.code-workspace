@@ -5,8 +5,8 @@
       "name": "AUTH_SERVICE"
 		},
     {
-      "path": "./compose",
-      "name": "COMPOSE"
+      "path": "./envs",
+      "name": "envs"
     }
   ],
   "settings": {}
