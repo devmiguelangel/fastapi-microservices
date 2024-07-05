@@ -9,6 +9,14 @@ class UserService:
     def __init__(self, db: Session):
         self.repository = UserRepository(db)
 
+    def get_by_email(self, email: str) -> UserOutputSchema:
+        user = self.repository.get_by_email(email)
+
+        if not user:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='User not found')
+
+        return UserOutputSchema(**user.__dict__)
+
     def create(self, data: UserCreateSchema) -> UserOutputSchema:
         try:
             user = self.repository.create(data)
