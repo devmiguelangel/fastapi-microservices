@@ -19,6 +19,6 @@ class AuthService:
             )
 
             if response.status_code == status.HTTP_200_OK:
-                return response.text, None
+                return response.json(), None
 
-            return None, (response.text, response.status_code)
+            return None, (response.json(), response.status_code)

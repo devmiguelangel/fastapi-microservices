@@ -24,6 +24,6 @@ def login(
 
     return _service.get_access_token(credentials)
 
-@router.get('/me')
+@router.get('/validate')
 def me(current_user: Annotated[User, Depends(get_current_user)]) -> dict:
     return {'user': current_user}
