@@ -25,3 +25,16 @@ services:
     depends_on:
       - db
     restart: unless-stopped
+
+  gateway:
+    image: devmiguelangel/ms-insta-gateway:latest
+    container_name: ms_gateway
+    volumes:
+      - ./services/gateway:/api
+    env_file:
+      - ./envs/gateway.env
+    ports:
+      - '8002:8000'
+    depends_on:
+      - auth
+    restart: unless-stopped

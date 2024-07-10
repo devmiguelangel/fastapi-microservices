@@ -5,6 +5,10 @@
       "name": "AUTH_SERVICE"
 		},
     {
+      "path": "./services/gateway",
+      "name": "GATEWAY_SERVICE"
+    },
+    {
       "path": "./envs",
       "name": "envs"
     }
