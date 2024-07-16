@@ -1,5 +1,6 @@
 volumes:
   db: {}
+  db_mongo: {}
 
 services:
   db:
@@ -11,6 +12,18 @@ services:
       - ./envs/db.env
     ports:
       - '5432:5432'
+    restart: unless-stopped
+
+  mongo:
+    image: mongo:7.0.12
+    container_name: ms_mongo
+    volumes:
+      - db_mongo:/data/db
+      - ./envs/init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh:ro
+    env_file:
+      - ./envs/mongo.env
+    ports:
+      - '27017:27017'
     restart: unless-stopped
 
   auth:
@@ -37,4 +50,5 @@ services:
       - '8002:8000'
     depends_on:
       - auth
+      - mongo
     restart: unless-stopped

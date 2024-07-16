@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 from api.models.database import get_db
 from api.models.users import User
 from api.schemas.auth_schema import TokenSchema
+from api.schemas.user_schema import UserOutputSchema
 from api.services.auth_service import AuthService
 from api.utils.oauth2 import get_current_user
 
@@ -25,5 +26,5 @@ def login(
     return _service.get_access_token(credentials)
 
 @router.get('/validate')
-def me(current_user: Annotated[User, Depends(get_current_user)]) -> dict:
-    return {'user': current_user}
+def me(current_user: Annotated[User, Depends(get_current_user)]) -> UserOutputSchema:
+    return current_user
