@@ -52,3 +52,17 @@ services:
       - auth
       - mongo
     restart: unless-stopped
+
+  queue:
+    image: rabbitmq:3.13-management-alpine
+    container_name: ms_queue
+    ports:
+      - '5672:5672'
+      - 15672:15672
+    environment:
+      - RABBITMQ_DEFAULT_USER=miguel
+      - RABBITMQ_DEFAULT_PASS=secret
+    # volumes:
+    #   - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+    #   - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    restart: unless-stopped
