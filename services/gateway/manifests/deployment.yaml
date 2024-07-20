@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ms-gateway
+  labels:
+    app: ms-gateway
+spec:
+  selector:
+    matchLabels:
+      app: ms-gateway
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 3
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: ms-gateway
+    spec:
+      containers:
+        - name: ms-gateway
+          image: devmiguelangel/ms-insta-gateway:latest
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: ms-gateway-config
+            - secretRef:
+                name: ms-gateway-secret
