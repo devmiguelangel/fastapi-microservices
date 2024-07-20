@@ -7,6 +7,7 @@ RUN apk update && \
     libressl-dev \
     musl-dev \
     libffi-dev \
+    netcat-openbsd \
     bash
 
 ENV PYTHONUNBUFFERED=1
