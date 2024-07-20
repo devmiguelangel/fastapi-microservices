@@ -1,6 +1,7 @@
 volumes:
   db: {}
   db_mongo: {}
+  rabbitmq-data: {}
 
 services:
   db:
@@ -9,7 +10,7 @@ services:
     volumes:
       - db:/var/lib/postgresql/data
     env_file:
-      - ./envs/db.env
+      - ./compose/envs/db.env
     ports:
       - '5432:5432'
     restart: unless-stopped
@@ -19,9 +20,9 @@ services:
     container_name: ms_mongo
     volumes:
       - db_mongo:/data/db
-      - ./envs/init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh:ro
+      - ./compose/init-mongo.sh:/docker-entrypoint-initdb.d/init-mongo.sh:ro
     env_file:
-      - ./envs/mongo.env
+      - ./compose/envs/mongo.env
     ports:
       - '27017:27017'
     restart: unless-stopped
@@ -32,7 +33,7 @@ services:
     volumes:
       - ./services/auth:/api
     env_file:
-      - ./envs/auth.env
+      - ./compose/envs/auth.env
     ports:
       - '8001:8000'
     depends_on:
@@ -45,7 +46,7 @@ services:
     volumes:
       - ./services/gateway:/api
     env_file:
-      - ./envs/gateway.env
+      - ./compose/envs/gateway.env
     ports:
       - '8002:8000'
     depends_on:
@@ -53,16 +54,16 @@ services:
       - mongo
     restart: unless-stopped
 
-  queue:
+  rabbitmq:
     image: rabbitmq:3.13-management-alpine
-    container_name: ms_queue
+    container_name: ms_rabbitmq
     ports:
       - '5672:5672'
       - 15672:15672
     environment:
       - RABBITMQ_DEFAULT_USER=miguel
       - RABBITMQ_DEFAULT_PASS=secret
-    # volumes:
-    #   - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
     #   - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
     restart: unless-stopped

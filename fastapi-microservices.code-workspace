@@ -9,8 +9,8 @@
       "name": "GATEWAY_SERVICE"
     },
     {
-      "path": "./envs",
-      "name": "envs"
+      "path": "./compose",
+      "name": "compose"
     }
   ],
   "settings": {}

@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: ms-rabbitmq
+spec:
+  # serviceName: ms-rabbitmq
+  serviceName: not-applicable
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ms-rabbitmq
+  template:
+    metadata:
+      labels:
+        app: ms-rabbitmq
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - name: rabbitmq
+          image: rabbitmq:3.13-management-alpine
+          ports:
+            - name: http
+              protocol: TCP
+              containerPort: 15672
+            - name: amqp
+              protocol: TCP
+              containerPort: 5672
+          envFrom:
+            - configMapRef:
+                name: ms-rabbitmq-config
+            - secretRef:
+                name: ms-rabbitmq-secret
+          volumeMounts:
+            - name: rabbitmq-data
+              mountPath: /var/lib/rabbitmq
+      volumes:
+        - name: rabbitmq-data
+          persistentVolumeClaim:
+            claimName: rabbitmq-pvc
