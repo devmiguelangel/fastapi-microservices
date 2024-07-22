@@ -21,9 +21,20 @@ class RabbitMQService:
             self.channel = await self.connection.channel()
             print('Connected to RabbitMQ')
 
+    async def publish(self, queue_name: str, message: json):
+        await self.connect()
+        queue = await self.channel.declare_queue(queue_name, durable=True)
+
+        await self.channel.default_exchange.publish(
+            Message(
+                body=message.encode(),
+            ),
+            routing_key=queue.name,
+        )
+
     async def on_message(self, message: IncomingMessage) -> None:
         async with message.process():
-            audio_id = await self.converter_service.to_mp3(message.body)
+            audio_id = await self.converter_service.to_mp3(message.body, self.publish)
 
             if audio_id is not None:
                 print(f'Audio ID {audio_id} has been created')

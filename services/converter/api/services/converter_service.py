@@ -6,13 +6,14 @@ from bson.objectid import ObjectId
 from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorGridFSBucket
 
 from api.db.db import get_db
+from api.settings import settings
 
 
 class ConverterService:
     async def get_db(self) -> AsyncIOMotorClient:
         return await get_db()
 
-    async def to_mp3(self, message: json):
+    async def to_mp3(self, message: json, publish: callable) -> str:
         try:
             db: AsyncIOMotorClient = await self.get_db()
             self.fs_videos = AsyncIOMotorGridFSBucket(db, bucket_name='videos')
@@ -24,7 +25,10 @@ class ConverterService:
             video_data = await self.download_video(file_id)
             audio_id = await self.convert_and_upload_audio(video_data, file_id)
 
-            return str(audio_id)
+            if audio_id is not None:
+                await publish(settings.AUDIO_QUEUE, json.dumps({'audio_id': audio_id}))
+
+            return audio_id
         except Exception as e:
             print(e)
             return None
@@ -54,4 +58,4 @@ class ConverterService:
                     }
                 )
 
-        return audio_id
+        return str(audio_id)
