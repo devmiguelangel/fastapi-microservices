@@ -11,7 +11,6 @@ class RabbitMQService:
         self.connection: Connection = None
         self.channel: Channel = None
 
-
     async def connect(self):
         if self.connection is None:
             self.connection = await connect(self.amqp_url)

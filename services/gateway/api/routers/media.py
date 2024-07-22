@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, UploadFile
+from fastapi import APIRouter, Depends, HTTPException, UploadFile
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from motor.motor_asyncio import AsyncIOMotorClient
 
@@ -17,6 +17,9 @@ security = HTTPBearer()
 
 @router.post('/upload')
 async def upload(credentials: Annotated[HTTPAuthorizationCredentials, Depends(security)], file: UploadFile, db: AsyncIOMotorClient = Depends(get_db)):
+    if file.content_type is None:
+        raise HTTPException(status_code=400, detail='File is empty')
+
     auth_service = AuthService()
     media_service = MediaService(db)
 
