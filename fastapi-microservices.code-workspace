@@ -9,6 +9,10 @@
       "name": "GATEWAY_SERVICE"
     },
     {
+      "path": "./services/converter",
+      "name": "CONVERTER_SERVICE"
+    },
+    {
       "path": "./compose",
       "name": "compose"
     }

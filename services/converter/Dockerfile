@@ -8,6 +8,7 @@ RUN apk update && \
     musl-dev \
     libffi-dev \
     netcat-openbsd \
+    ffmpeg \
     bash
 
 ENV PYTHONUNBUFFERED=1

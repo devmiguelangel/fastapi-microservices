@@ -1,22 +1,22 @@
 [tool.poetry]
-name = "gateway"
+name = "converter"
 version = "0.1.0"
-description = "Gateway service"
+description = "Converter service"
 authors = ["Miguel Angel <miguelangeldev@icloud.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.12"
-fastapi = "^0.111.0"
+fastapi = "^0.111.1"
 uvicorn = "^0.30.1"
-ruff = "^0.5.1"
+ruff = "^0.5.3"
 pydantic = "^2.8.2"
 pydantic-settings = "^2.3.4"
 pytest = "^8.2.2"
 pymongo = "^4.8.0"
 motor = {extras = ["srv"], version = "^3.5.1"}
-psutil = "^6.0.0"
 aio-pika = "^9.4.2"
+moviepy = "^1.0.3"
 
 
 [build-system]

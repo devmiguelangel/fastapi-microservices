@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ms-converter
+  labels:
+    app: ms-converter
+spec:
+  selector:
+    matchLabels:
+      app: ms-converter
+  replicas: 4
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 8
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: ms-converter
+    spec:
+      containers:
+        - name: ms-converter
+          image: devmiguelangel/ms-insta-converter:latest
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: ms-converter-config
+            - secretRef:
+                name: ms-converter-secret

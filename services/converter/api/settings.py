@@ -2,7 +2,6 @@ from pydantic_settings import BaseSettings
 
 
 class Settings(BaseSettings):
-    AUTH_URL: str
     DB_USER: str
     DB_PASSWORD: str
     DB_HOST: str
@@ -14,6 +13,5 @@ class Settings(BaseSettings):
     RABBITMQ_PASSWORD: str
     VIDEO_QUEUE: str
     AUDIO_QUEUE: str
-
 
 settings = Settings()

@@ -52,6 +52,21 @@ services:
     depends_on:
       - auth
       - mongo
+      - rabbitmq
+    restart: unless-stopped
+
+  converter:
+    image: devmiguelangel/ms-insta-converter:latest
+    container_name: ms_converter
+    volumes:
+      - ./services/converter:/api
+    env_file:
+      - ./compose/envs/converter.env
+    ports:
+      - '8003:8000'
+    depends_on:
+      - mongo
+      - rabbitmq
     restart: unless-stopped
 
   rabbitmq:
