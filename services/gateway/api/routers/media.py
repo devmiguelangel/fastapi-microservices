@@ -1,6 +1,7 @@
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, UploadFile
+from fastapi.responses import FileResponse
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from motor.motor_asyncio import AsyncIOMotorClient
 
@@ -16,7 +17,12 @@ router = APIRouter(
 security = HTTPBearer()
 
 @router.post('/upload')
-async def upload(credentials: Annotated[HTTPAuthorizationCredentials, Depends(security)], file: UploadFile, db: AsyncIOMotorClient = Depends(get_db)):
+async def upload(
+    credentials: Annotated[HTTPAuthorizationCredentials,
+    Depends(security)],
+    file: UploadFile,
+    db: AsyncIOMotorClient = Depends(get_db)
+):
     if file.content_type is None:
         raise HTTPException(status_code=400, detail='File is empty')
 
@@ -36,8 +42,16 @@ async def upload(credentials: Annotated[HTTPAuthorizationCredentials, Depends(se
     return message
 
 @router.get('/download')
-def download():
-    media_service = MediaService()
-    res = media_service.download()
+async def download(
+    credentials: Annotated[HTTPAuthorizationCredentials,
+    Depends(security)],
+    file_id: str,
+    db: AsyncIOMotorClient = Depends(get_db)
+):
+    auth_service = AuthService()
+    media_service = MediaService(db)
 
-    return {'message': 'downloaded'}
+    user = await auth_service.validate(credentials.credentials)
+    file = await media_service.download(file_id)
+
+    return FileResponse(file, media_type='audio/mpeg', filename=file)
