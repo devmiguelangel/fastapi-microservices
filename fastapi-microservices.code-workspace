@@ -13,6 +13,10 @@
       "name": "CONVERTER_SERVICE"
     },
     {
+      "path": "./services/notification",
+      "name": "NOTIFICATION_SERVICE"
+    },
+    {
       "path": "./compose",
       "name": "compose"
     }
