@@ -1,7 +1,7 @@
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, UploadFile
-from fastapi.responses import FileResponse
+from fastapi.responses import StreamingResponse
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from motor.motor_asyncio import AsyncIOMotorClient
 
@@ -41,7 +41,7 @@ async def upload(
 
     return message
 
-@router.get('/download')
+@router.get('/download/{file_id}')
 async def download(
     credentials: Annotated[HTTPAuthorizationCredentials,
     Depends(security)],
@@ -54,4 +54,4 @@ async def download(
     user = await auth_service.validate(credentials.credentials)
     file = await media_service.download(file_id)
 
-    return FileResponse(file, media_type='audio/mpeg', filename=file)
+    return StreamingResponse(file, media_type='audio/mpeg')
