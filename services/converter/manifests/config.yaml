@@ -1,9 +1,8 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: ms-gateway-config
+  name: ms-converter-config
 data:
-  AUTH_URL: http://ms-auth:8000/api/v1
   DB_USER: miguel
   DB_HOST: host.minikube.internal
   DB_PORT: '27017'
@@ -13,3 +12,4 @@ data:
   RABBITMQ_USER: miguel
   VIDEO_QUEUE: VIDEOS
   AUDIO_QUEUE: AUDIOS
+

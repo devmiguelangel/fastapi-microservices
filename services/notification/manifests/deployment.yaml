@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ms-notification
+  labels:
+    app: ms-notification
+spec:
+  selector:
+    matchLabels:
+      app: ms-notification
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 6
+      maxUnavailable: 1
+  template:
+    metadata:
+      labels:
+        app: ms-notification
+    spec:
+      containers:
+        - name: ms-notification
+          image: devmiguelangel/ms-insta-notification:latest
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 8000
+          envFrom:
+            - configMapRef:
+                name: ms-notification-config
+            - secretRef:
+                name: ms-notification-secret

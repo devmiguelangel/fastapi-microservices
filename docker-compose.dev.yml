@@ -69,6 +69,19 @@ services:
       - rabbitmq
     restart: unless-stopped
 
+  notification:
+    image: devmiguelangel/ms-insta-notification:latest
+    container_name: ms_notification
+    volumes:
+      - ./services/notification:/api
+    env_file:
+      - ./compose/envs/notification.env
+    ports:
+      - '8004:8000'
+    depends_on:
+      - rabbitmq
+    restart: unless-stopped
+
   rabbitmq:
     image: rabbitmq:3.13-management-alpine
     container_name: ms_rabbitmq

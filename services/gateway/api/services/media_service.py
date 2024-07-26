@@ -1,5 +1,4 @@
 import json
-import tempfile
 
 from bson.objectid import ObjectId
 from fastapi import HTTPException, UploadFile
@@ -45,23 +44,13 @@ class MediaService:
             HTTPException(status_code=500, detail='Error uploading file.')
 
     async def download(self, file_id: str):
-        audio_data = self.download_audio(file_id)
-
-        with tempfile.NamedTemporaryFile() as temp_audio:
-            temp_audio.write(audio_data)
-            temp_audio.flush()
-
-            return temp_audio.name
-
-    async def download_audio(self, file_id: str):
         file_id = ObjectId(file_id)
 
         try:
             gfs = AsyncIOMotorGridFSBucket(self.db, bucket_name='audios')
             file = await gfs.open_download_stream(file_id)
-            file_data = await file.read()
 
-            return file_data
+            return file
         except Exception as e:
             print(e)
             raise HTTPException(status_code=500, detail='Error downloading file') from e
