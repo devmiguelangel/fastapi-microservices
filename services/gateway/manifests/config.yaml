@@ -8,3 +8,8 @@ data:
   DB_HOST: host.minikube.internal
   DB_PORT: '27017'
   DB_NAME: media
+  RABBITMQ_HOST: ms-rabbitmq
+  RABBITMQ_PORT: '5672'
+  RABBITMQ_USER: miguel
+  VIDEO_QUEUE: VIDEOS
+  AUDIO_QUEUE: AUDIOS

@@ -4,7 +4,7 @@ metadata:
   name: ms-converter-config
 data:
   DB_USER: miguel
-  DB_HOST: mongo
+  DB_HOST: host.minikube.internal
   DB_PORT: '27017'
   DB_NAME: media
   RABBITMQ_HOST: ms-rabbitmq
